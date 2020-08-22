@@ -22,10 +22,10 @@ sns.pairplot(Toyotta_Cars)
 
 import statsmodels.formula.api as smf 
 
-model1 = smf.ols('Price~Age_08_04+KM+HP+cc+Doors+Gears+Quarterly_Tax+Weight',data= Toyotta_Cars).fit()
+model1 = smf.ols('Price~Age_08_04+KM+HP+cc+Doors+Gears+Quarterly_Tax+Weight',data= Toyotta_Cars).fit()##0.864
 print(model1.params)
 
-#print(model1.summary())
+print(model1.summary())
 ##Calculate RMSE Value
 
 predicted_value = model1.predict(Toyotta_Cars)
@@ -40,30 +40,33 @@ sm.graphics.influence_plot(model1)
 
 Toyotta_Cars_new  = Toyotta_Cars.drop(Toyotta_Cars.index[80],axis=0)
 
-model2 = smf.ols('Price~Age_08_04+KM+HP+cc+Doors+Gears+Quarterly_Tax+Weight',data= Toyotta_Cars_new).fit()
-print(model2.summary())
+model2 = smf.ols('Price~Age_08_04+KM+HP+cc+Doors+Gears+Quarterly_Tax+Weight',data= Toyotta_Cars_new).fit()##0.864
+##print(model2.summary())
 
-#since p value is 0 so final model
 
 final_predict = model2.predict(Toyotta_Cars_new)
 
-print(final_predict)
+#print(final_predict)
 
 
 
 
-###since P value for CC and Doors are high 
-# ###predicting values with CC only
+##Third model 
 
-# model_cc = smf.ols('Price~cc',data= Toyotta_Cars).fit()
-# print(model_cc.summary()) ### Pvalue is 0
 
-# model_doors = smf.ols('Price~Doors',data= Toyotta_Cars).fit()
-# print(model_doors.summary()) ###Pvalue is 0
+model3 = smf.ols('Price~np.log(Age_08_04+KM+HP+cc+Doors+Gears+Quarterly_Tax+Weight)',data= Toyotta_Cars_new).fit()##0.4375
+print(model3.summary())
 
-# model_combine = smf.ols('Price~cc+Doors',data= Toyotta_Cars).fit()
-# print(model_combine.summary())
 
-# import statsmodels.api as sm
-# sm.graphics.influence_plot(model1)
-# plt.show()
+
+
+
+
+model4= smf.ols('np.log(Price)~Age_08_04+KM+HP+cc+Doors+Gears+Quarterly_Tax+Weight',data= Toyotta_Cars_new).fit()##0.869
+print(model2.summary())
+
+
+
+final_predict = model4.predict(Toyotta_Cars_new)
+
+
